@@ -1,0 +1,34 @@
+1. What is Docker and why use docker
+
+2. What is a container
+
+3. What is an image and how to make one
+
+4. what is a Dockerfile && how to make a dockerfile 
+
+what is a daemon
+
+5. What is nginx 
+
+6. What is the nginx configuration file
+
+7. What is SSL / TLS 
+
+8. Certifications on the internet
+
+9. OpenSSL is an open-source projects that allows to work with SSL/TLS certificates and cryptographic operations through a command line. It works with it's development package libssl-dev. Command used:
+	'req' creates a certificate request or a self-signed certificate;
+	'-newkey rsa:4096 'than generates a new RSA private key with specified size(RSA is a widely-used asymmetric encryption algorithm);
+	'-x509' asks OpenSSL for a self-signed X.509(standard for certificates);
+	'-sha256' specifies the hash algorythm to generate the certificate's signature;
+	'-days 365' sets the certificate's validity period;
+	'-nodes' stands for No DES and it is saying that the private key will not be protected with a password.
+When you run this command, OpenSSL will generate a new RSA private key, create a self-signed X.509 certificate using that key, and store both the private key and the certificate in separate files. Redirecting files with:
+'-out' is a versitile option in OpenSSL to specify where the result of a cryptographic operation shoul be written.
+'-keyout' same thing just for key cryptography.
+'-subj' specify subject distinguish name (DN)?: set of fields that uniquely identify or subject the certificate belongs to.
+
+10. DockerCompose is a tool fro defining multi-container Docker applications. With compose you use a YALM file to configure your application'services. Then, with a single command, you create and start all the services from your configuration.
+
+If /var/run/mysqld/mysqld.sock is not a regular file but a socket, it means that MySQL is configured to use Unix domain sockets for communication, which is common in many MySQL installations.
+To access a Unix domain socket like this one, you typically don't interact with it directly as if it were a regular file. Instead, you connect to it using a MySQL client or another application that communicates with the MySQL server through the socket.
