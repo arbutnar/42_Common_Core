@@ -9,8 +9,8 @@ stop:
 
 clean:
 	@sudo docker-compose -f $(COMPOSE_FILE) down
-	@sudo docker rmi -f $$(sudo docker images -qa)
-	@sudo docker volume rm $$(sudo docker volume ls -q)
+	-@sudo docker rmi -f $$(sudo docker images -qa) 2>/dev/null
+	-@sudo docker volume rm $$(sudo docker volume ls -q) 2>/dev/null
 	@sudo rm -rf ./srcs/shared/*
 	@sudo rm -rf ./srcs/mariadb/data/*
 	@sudo docker system prune -f
