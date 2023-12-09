@@ -6,7 +6,7 @@
 /*   By: arbutnar <arbutnar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:59:53 by arbutnar          #+#    #+#             */
-/*   Updated: 2023/12/08 16:13:52 by arbutnar         ###   ########.fr       */
+/*   Updated: 2023/12/09 12:36:19 by arbutnar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ void	Master::arrangeCluster( void ) {
 }
 
 void	Master::start( void ) {
-	fd_set	active;
+	fd_set	ready;
 	int		max;
 	struct timeval  tv;
 
@@ -186,20 +186,20 @@ void	Master::start( void ) {
 	tv.tv_usec = 0;
 	while (true)
 	{
-		for (v_ser::iterator it = _cluster.begin(); it != _cluster.end(); it++)
+		for (v_ser::iterator sIt = _cluster.begin(); sIt != _cluster.end(); sIt++)
 		{
-			FD_ZERO(&active);
-			FD_SET(it->getListener(), &active);
-			for (v_cli::const_iterator c_it = it->getClients().begin(); c_it != it->getClients().end(); c_it++)
-				FD_SET(c_it->getSocket(), &active);
-			max = it->nfds();
+			FD_ZERO(&ready);
+			FD_SET(sIt->getListener(), &ready);
+			for (v_cli::const_sIterator c_sIt = sIt->getClients().begin(); c_sIt != sIt->getClients().end(); c_sIt++)
+				FD_SET(c_sIt->getSocket(), &ready);
+			max = sIt->nfds();
 			if (max == 0)
-				max = it->getListener();
-			if (select(max + 1, &active, NULL, NULL, &tv) < 1)
+				max = sIt->getListener();
+			if (select(max + 1, &ready, NULL, NULL, &tv) < 1)
 				continue ;
-			if (FD_ISSET(it->getListener(), &active))
-				it->newConnection();
-			it->clientInteraction(active);
+			if (FD_ISSET(sIt->getListener(), &ready))
+				sIt->newConnection();
+			sIt->manageConnections(ready);
 		}
 	}
 }
